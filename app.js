@@ -63,7 +63,7 @@ const server = app.listen(port, () => {
 
 server.on('error', (error) => {
   if (error.code === 'EADDRINUSE') {
-    console.log(`Port ${port} is already in use. Trying the next available port...`);
+    console.log(`Port ${PORT} is already in use. Trying the next available port...`);
     port += 1;
     server.listen(port, () => {
       console.log(`Server is running on port ${PORT}`);
