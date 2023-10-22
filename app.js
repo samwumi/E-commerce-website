@@ -53,11 +53,7 @@ app.use(notFoundMiddleware);
 
 app.use(errorHandlerMiddleware);
 
-let port = 3000; // Default port
-
-if (process.env.PORT) {
-  port = process.env.PORT; // Use the PORT environment variable if provided
-}
+const PORT = process.env.PORT || 3000
 
 
 // Check if the port is available; if not, use a different port
@@ -70,7 +66,7 @@ server.on('error', (error) => {
     console.log(`Port ${port} is already in use. Trying the next available port...`);
     port += 1;
     server.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      console.log(`Server is running on port ${PORT}`);
     });
   } else {
     console.error('Server error:', error);
