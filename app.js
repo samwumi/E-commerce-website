@@ -57,15 +57,15 @@ const PORT = process.env.PORT || 3000
 
 
 // Check if the port is available; if not, use a different port
-const server = app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 server.on('error', (error) => {
   if (error.code === 'EADDRINUSE') {
     console.log(`Port ${PORT} is already in use. Trying the next available port...`);
     port += 1;
-    server.listen(port, () => {
+    server.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
   } else {
