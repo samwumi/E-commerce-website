@@ -12,7 +12,7 @@ if(process.env.MONGODB_URL){
 let database;
 
 async function connectToDatabase() {
-  const client = await MongoClient.connect();
+  const client = await MongoClient.connect(mongodbUrl);
   database = client.db('online-shop');
 }
 

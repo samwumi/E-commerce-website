@@ -66,5 +66,3 @@ db.connectToDatabase()
     console.log('Failed to connect to the database!');
     console.log(error);
   });
-
-  36eVXxlqwPOAAum0
