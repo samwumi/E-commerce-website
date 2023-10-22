@@ -20,6 +20,12 @@ const adminRoutes = require('./routes/admin.routes');
 const cartRoutes = require('./routes/cart.routes');
 const ordersRoutes = require('./routes/orders.routes');
 
+let port = 3000
+
+if(process.env.PORT){
+  port = process.env.PORT
+}
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -54,9 +60,11 @@ app.use(errorHandlerMiddleware);
 
 db.connectToDatabase()
   .then(function () {
-    app.listen(3000);
+    app.listen(port);
   })
   .catch(function (error) {
     console.log('Failed to connect to the database!');
     console.log(error);
   });
+
+  36eVXxlqwPOAAum0
