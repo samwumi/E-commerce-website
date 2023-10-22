@@ -20,11 +20,6 @@ const adminRoutes = require('./routes/admin.routes');
 const cartRoutes = require('./routes/cart.routes');
 const ordersRoutes = require('./routes/orders.routes');
 
-let port = 3000
-
-if(process.env.PORT){
-  port = process.env.PORT
-}
 
 const app = express();
 
@@ -58,11 +53,36 @@ app.use(notFoundMiddleware);
 
 app.use(errorHandlerMiddleware);
 
+let port = 3000; // Default port
+
+if (process.env.PORT) {
+  port = process.env.PORT; // Use the PORT environment variable if provided
+}
+
+
+// Check if the port is available; if not, use a different port
+const server = app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.log(`Port ${port} is already in use. Trying the next available port...`);
+    port += 1;
+    server.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } else {
+    console.error('Server error:', error);
+  }
+});
+
+// Connect to the database
 db.connectToDatabase()
   .then(function () {
-    app.listen(port);
+    console.log('Connected to the database');
   })
   .catch(function (error) {
     console.log('Failed to connect to the database!');
-    console.log(error);
+    console.error(error);
   });
