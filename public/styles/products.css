@@ -53,6 +53,11 @@
   text-align: center;
 }
 
+#product-info a {
+    display: inline-block;
+    margin-top: 20px;
+}
+
 #product-description {
   background-color: var(--color-primary-500-bg);
   padding: var(--space-8);

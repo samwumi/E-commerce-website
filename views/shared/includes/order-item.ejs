@@ -2,6 +2,10 @@
   <header class="order-summary">
     <h2><span class="order-item-price">$<%= order.productData.totalPrice.toFixed(2) %></span> - <%= order.formattedDate %></h2>
     <p><span class="badge"><%= order.status.toUpperCase() %></span></p>
+    <a aria-current="page" class="whatsapp active" target="_blank" href="https://wa.link/evqg95" class="">
+      <i class="fa-brands fa-whatsapp"></i>
+      <span>Message on Whatsapp</span>
+  </a>
   </header>
 
   <section class="order-details">

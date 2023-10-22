@@ -15,6 +15,10 @@
   margin-bottom: var(--space-2);
 }
 
+.order-summary i{
+   color: rgb(9, 241, 9);
+}
+
 .order-summary h2,
 .order-summary p {
   font-size: 1.25rem;

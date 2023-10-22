@@ -1,6 +1,9 @@
 <%- include('../../shared/includes/head', { pageTitle: product.title }) %>
 <link rel="stylesheet" href="/styles/products.css">
 <script src="/scripts/cart-management.js" defer></script>
+<meta property="og:title" content="<%= product.title %>">
+<meta property="og:description" content="<%= product.description  %>">
+<meta property="og:image" content="<%= product.imageUrl %>">
 </head>
 <body>
   <%- include('../../shared/includes/header') %>
@@ -11,9 +14,27 @@
         <h1><%= product.title %></h1>
         <p>$<%= product.price %></p>
         <button class="btn" data-productid="<%= product.id %>" data-csrf="<%= locals.csrfToken %>">Add to Cart</button>
+        <a id="shareButton" class="btn-alt whatsapp" aria-current="page" class="whatsapp active" target="_blank" href="https://wa.me/+2348039281641/?text=Check this out: <%=product.title%>, <%= product.price %>" >
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>Message on Whatsapp</span>
+      </a>
       </div>
     </header>
-    
     <p id="product-description"><%= product.description %></p>
   </main>
 <%- include('../../shared/includes/footer') %>
+
+<button id="shareButton">Share on WhatsApp</button>
+<script>
+document.getElementById("shareButton").addEventListener("click", function() {
+  var phoneNumber = +2348039281641; // Replace with the recipient's phone number
+  var productURL = window.location.href;
+  var message = 'I want to get this product:\n' + productURL;
+  var whatsappURL = 'https://wa.me/' + phoneNumber + '/?text=' + encodeURIComponent(message);
+
+  // Automatically open the WhatsApp chat window
+  window.open(whatsappURL, "_blank");
+
+});
+
+</script>
