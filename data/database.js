@@ -1,32 +1,38 @@
-const mongodb = require('mongodb');
+const { MongoClient } = require('mongodb');
 
-const MongoClient = mongodb.MongoClient;
+const mongodbUrl = process.env.MONGODB_URL;
 
-let mongodbUrl = 'mongodb+srv://aldeadewumi247:36eVXxlqwPOAAum0@cluster0.c5e9ezy.mongodb.net/?retryWrites=true&w=majority'
-
-if(process.env.MONGODB_URL){
-  mongodbUrl = process.env.MONGODB_URL;
+if (!mongodbUrl) {
+  throw new Error('❌ MONGODB_URL environment variable is not set');
 }
 
 
 let database;
 
 async function connectToDatabase() {
-  const client = await MongoClient.connect(mongodbUrl);
-  database = client.db('online-shop');
+  try {
+    const client = await MongoClient.connect(mongodbUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    database = client.db('online-shop');
+    console.log('✅ Connected to MongoDB');
+  } catch (err) {
+    console.error('❌ MongoDB connection failed:', err.message);
+    process.exit(1); // Stop app if DB fails
+  }
 }
-
-
 
 function getDb() {
   if (!database) {
-    throw new Error('You must connect first!');
+    throw new Error('❌ You must connect to the database first!');
   }
 
   return database;
 }
 
 module.exports = {
-  connectToDatabase: connectToDatabase,
-  getDb: getDb
+  connectToDatabase,
+  getDb
 };
