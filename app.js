@@ -53,32 +53,34 @@ app.use(notFoundMiddleware);
 
 app.use(errorHandlerMiddleware);
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
 
-// Check if the port is available; if not, use a different port
-const server = app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
-server.on('error', (error) => {
-  if (error.code === 'EADDRINUSE') {
-    console.log(`Port ${PORT} is already in use. Trying the next available port...`);
-    port += 1;
-    server.listen(PORT, () => {
+db.connectToDatabase()
+  .then(() => {
+    console.log('✅ Connected to the database');
+
+    const server = app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
-  } else {
-    console.error('Server error:', error);
-  }
-});
 
-// Connect to the database
-db.connectToDatabase()
-  .then(function () {
-    console.log('Connected to the database');
+    server.on('error', (error) => {
+      if (error.code === 'EADDRINUSE') {
+        console.log(`Port ${PORT} is already in use. Trying the next available port...`);
+        // Update PORT and listen again
+        PORT += 1;
+        server.listen(PORT, () => {
+          console.log(`Server is running on port ${PORT}`);
+        });
+      } else {
+        console.error('Server error:', error);
+      }
+    });
+
   })
-  .catch(function (error) {
-    console.log('Failed to connect to the database!');
+  .catch((error) => {
+    console.error('❌ Failed to connect to the database!');
     console.error(error);
+    process.exit(1); // Exit app if DB connection fails
   });
